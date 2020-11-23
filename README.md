@@ -1,2 +1,3 @@
 # Kannan_B.infantisProject_blastrunner
-# This repository contains the functions necessary for setting up the BLAST we need for the B. infantis project
+# This repository contains important code and files used for the B. infantis metagenomic analysis project
+# Created November 23, 2020
