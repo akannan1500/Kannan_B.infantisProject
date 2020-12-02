@@ -7,7 +7,7 @@ import subprocess
 # the metagenome accession numbers, but it should be close if not. Run the 
 # file like this: 
 # python blast_runner.py [list_of_accession_nums] [name_of_merged_mgx_file] [name_of_query_file] [name_of_blast_output_file]  
-
+Entrez.email = "akannan2@wellesley.edu"
 def get_metagenomes(acc_list):
     '''
         Get metagenomes from NCBI given a list of accession numbers
@@ -36,6 +36,9 @@ def run_blast(query, db, out):
 
 if __name__=="__main__":
     import sys
-    get_metagenomes(sys.argv[1])
+    with open(sys.argv[1]) as io:
+        acc_list = io.read().splitlines()
+
+    get_metagenomes(acc_list)
     group_metagenomes(sys.argv[2])
     run_blast(sys.argv[3], sys.argv[2], sys.argv[4])
