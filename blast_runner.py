@@ -14,7 +14,7 @@ def get_metagenomes(acc_list):
     '''
     for acc in acc_list:
         f = open("fastas/{}.fasta".format(acc), "a")
-        seq = Entrez.efetch(db="nucleotide", id=acc, rettype="fasta")
+        seq = Entrez.efetch(db="SRA", id=acc, rettype="fasta")
         f.write(seq.read().strip().replace('\n', ''))
         f.close()
 
