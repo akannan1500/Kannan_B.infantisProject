@@ -1,5 +1,6 @@
 from Bio import Entrez
 import subprocess
+import requests
 
 # ----------------------------------USAGE----------------------------------
 # Hey Aditi! This python script should contain functions for setting up the 
@@ -12,10 +13,11 @@ def get_metagenomes(acc_list):
     '''
         Get metagenomes from NCBI given a list of accession numbers
     '''
+    #for each accession number in an acc_list file, 
     for acc in acc_list:
         f = open("fastas/{}.fasta".format(acc), "a")
-        seq = Entrez.efetch(db="SRA", id=acc, rettype="fasta")
-        f.write(seq.read().strip().replace('\n', ''))
+        seq = Entrez.efetch(db="sra", id=acc, rettype="fasta")
+        f.write(seq.read().strip().replace('\n', '').encode())
         f.close()
 
 def group_metagenomes(out):
