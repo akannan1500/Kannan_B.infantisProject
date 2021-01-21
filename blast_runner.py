@@ -1,6 +1,6 @@
 from Bio import Entrez
 import subprocess
-import requests
+import time
 import os
 
 # ----------------------------------USAGE----------------------------------
@@ -22,6 +22,7 @@ def get_metagenomes(acc_list):
         seq = Entrez.efetch(db="sra", id=acc, rettype="fasta")
         f.write(seq.read().decode().strip().replace('\n', ''))
         f.close()
+        time.sleep(0.4)
 
 def group_metagenomes(out):
     '''
@@ -37,7 +38,8 @@ def run_blast(query, db, out):
                      '-dbtype', "'nucl'", '-out', 'blast_{}'.format(db),
                      '-parse_seqids'])
     subprocess.call(['blastn', '-db', 'blast_{}'.format(db), 'query',
-                     '{}'.format(query), '-out', '{}'.format(out), '-outfmt', '7'])
+                     '{}'.format(query), '-out', '{}'.format(out), '-outfmt', '7']) 
+    time.sleep(0.4)               
 
 if __name__=="__main__":
     import sys
