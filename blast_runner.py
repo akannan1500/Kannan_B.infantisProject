@@ -37,8 +37,8 @@ def run_blast(query, db, out):
     subprocess.call(['makeblastdb', '-in', '{}'.format(db),
                      '-dbtype', "'nucl'", '-out', 'blast_{}'.format(db),
                      '-parse_seqids'])
-    subprocess.call(['blastn', '-db', 'blast_{}'.format(db), 'query',
-                     '-out', '-outfmt', '7']) 
+    subprocess.call(['blastn', '-db', 'blast_{}'.format(db), 'query', query,
+                     '-out', out, '-outfmt', '7']) 
     time.sleep(0.4)               
 
 if __name__=="__main__":
