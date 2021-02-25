@@ -56,6 +56,12 @@ def get_genomes_binfatis(acc_list):
     bowtie2 -x binfantis -U acc_list_file.fastq --no-unal -p 12 -S Metagenome1_bowtie2.sam
 
 #Need to write a run_bowtie2(query, db, out) function
+def run_bowtie2(query, db, out):
+    for acc_list in query:
+        metagenome = get_metagenomes(acc_list=)
+        metagenomefile = group_metagenomes(metagenome)
+
+
 
 if __name__=="__main__":
     import sys
