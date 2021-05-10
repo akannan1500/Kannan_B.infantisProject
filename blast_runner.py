@@ -1,5 +1,7 @@
 from Bio import Entrez
 import subprocess
+import time
+import os
 
 # ----------------------------------USAGE----------------------------------
 # Hey Aditi! This python script should contain functions for setting up the 
@@ -12,17 +14,36 @@ def get_metagenomes(acc_list):
     '''
         Get metagenomes from NCBI given a list of accession numbers
     '''
+    #for each accession number in an acc_list file, 
     for acc in acc_list:
-        f = open("fastas/{}.fasta".format(acc), "a")
-        seq = Entrez.efetch(db="SRA", id=acc, rettype="fasta")
-        f.write(seq.read().strip().replace('\n', ''))
+        if os.path.isfile("fastas/{}.fasta".format(acc)):
+            continue
+        f = open("fastas/{}.fasta".format(acc), "w")
+        seq = Entrez.efetch(db="nuccore", id=acc, rettype="fasta")
+        f.write(seq.read().decode().strip().replace('\n', ''))
         f.close()
+        time.sleep(0.4)
+
+def get_metagenomes(acc_list_file):
+    '''
+        Get metagenomes from NCBI given a list of accession numbers
+    '''
+    #for each accession number in an acc_list file, 
+    for acc_list in acc_list_file:
+        if os.path.isfile("fastqs/{}.fastq".format(acc_list)):
+            continue
+        f = open("fastqs/{}.fastq".format(acc_list), "w")
+        sra = prefetch --option-file acc_list
+        seq = fasterq-dump --split-files sra
+        f.write(seq.read().decode().strip().replace('\n', ''))
+        f.close()
+        time.sleep(0.4)
 
 def group_metagenomes(out):
     '''
         Group metagenomes in one large fasta file
     '''
-    subprocess.call(['cat', 'fastas/*.fasta', '>', '{}.fasta'.format(out)])
+    subprocess.call(['cat', 'fastqs/*.fastq', '>', '{}.fastq'.format(out)])
 
 def run_blast(query, db, out):
     '''
@@ -31,8 +52,9 @@ def run_blast(query, db, out):
     subprocess.call(['makeblastdb', '-in', '{}'.format(db),
                      '-dbtype', "'nucl'", '-out', 'blast_{}'.format(db),
                      '-parse_seqids'])
-    subprocess.call(['blastn', '-db', 'blast_{}'.format(db), 'query',
-                     '{}'.format(query), '-out', '{}'.format(out), '-outfmt', '7'])
+    subprocess.call(['blastn', '-db', 'blast_{}'.format(db), 'query', query,
+                     '-out', out, '-outfmt', '7']) 
+    time.sleep(0.4)               
 
 if __name__=="__main__":
     import sys
