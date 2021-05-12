@@ -3,7 +3,9 @@ using BioServices.EUtils
 using DataFrames
 using CSV
 
-res = efetch(db="sra", id="SRR4408194", retmax=10)
+res = efetch(db="sra", id="SRR4408194", retmode="xml")
+using EzXML
+doc = parsexml(res.data)
 
 res.data
 
